@@ -4,7 +4,7 @@ $i = 5
 
 # if condition
 
-if ($i -eq 5)
+if ($i -eq 5) # if 
 {
 
     #print output and making text colour green

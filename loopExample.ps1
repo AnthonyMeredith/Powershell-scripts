@@ -6,7 +6,7 @@ while ($i -le 5)
 {
     if ($i -eq 5)
     {
-        Write-Host "$i is equal to 5 loop complete `r`n"
+        Write-Host "$i is equal to 5 loop complete `r`n" #
         break;
     }
     else
