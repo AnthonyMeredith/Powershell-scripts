@@ -80,3 +80,19 @@ Write-ToFile -text $text -filename $fileName -pathDirectory $pathDirectory
 }
 
 User-Input
+
+# $input1 | Out-File C:\Users\AnthonyMeredith\Desktop\powershellExamples\file.txt -Append # Appends to a file using the -Append file is path and file is hard coded in so cannot be changed
+
+<#$a = Read-Host "would you like to read from file?"
+
+if ($a -ieq "Y") {
+
+    write-host $pathName $fileName
+
+    Get-Content -Path "$pathName$fileName"
+
+}#>
+
+#$input1 = Get-Content env:computername
+
+#$input3 = Get-Content env:datetime
