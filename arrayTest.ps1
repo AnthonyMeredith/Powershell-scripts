@@ -27,7 +27,7 @@ $myArray
 # print to screen
 Write-Host "-----------Add element to end of array---------"
 
-#adding a new value to a fixed array 
+#adding a new value to a fixed array by recreating the array 
 $myArray += "jkl"
 
 $myArray

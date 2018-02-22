@@ -39,3 +39,9 @@ $arrayList
 
 Write-Host "----------------`r"
 
+# Declaring an empty array which can use add remove functions can also use $newTab = New-Object System.Collections.ArrayList
+$arrayList2 = [System.Collections.ArrayList]::new() # Creating a new array and calling the Static method of the System.Collections.ArrayList class can also be done using New-Object System.Collections.ArrayList
+$arrayList2 # Prints the empty array
+
+$arrayList2.Add("Item5") # Adds Item5 to the array
+$arrayList2 # Prints the array with the new value in it

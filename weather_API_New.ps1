@@ -31,7 +31,7 @@ function Get-weather {
 
 }
 
-Function Get-DateFromEpoch ($EpochDate) {
+Function Get-DateFromEpoch ($epochDate) {
 
    [timezone]::CurrentTimeZone.ToLocalTime(([datetime]'1/1/1970').AddSeconds($EpochDate))
 
@@ -93,28 +93,29 @@ function Get-WeatherDay {
     convertFrom-json | # Converting content from json    
     select -expand daily | # Expanding the daily section from the file
     select -expand data | # Expanding the data section from the file
-    select  time, summary, icon, temperatureHigh, temperatureLow, precipProbability, cloudCover, windSpeed # Extracting the summary, time, icon, temperatureHigh, temperatureLow, precipProbability, cloudCover, windSpeed sections of the currently section
+    select  time, summary, icon, temperatureHigh, temperatureLow, precipProbability, cloudCover, windSpeed | # Selecting the summary, time, icon, temperatureHigh, temperatureLow, precipProbability, cloudCover, windSpeed sections of the currently section for extraction
+    ConvertTo-Json |
     Out-File Daily.txt -Append # appending data to existing file
 
-    $time = Get-DateFromEpoch($inputFromJson.time)
+    
+    $timeChange = Get-Content Daily.json | # Getting content from from the json file
+    convertFrom-json | # Converting content from json    
+    select -expand daily | # Expanding the daily section from the file
+    select -expand data | # Expanding the data section from the file
+    select  time # Selecting the time field for time conversion
 
-    #$time = $inputFromJson.time
-    $time
-    #$computeTime =  [DateTime]::FromFileTime('$inputFromJson.time')
-    #$computeTime
-
-    <#$humanDate = [System.DateTimeOffset]::FromUnixTimeSeconds($computeTime).datetime.tolocaltime() # Accessing the FromUnixTimeSeconds static method from the System.DateTimeOffset class
-
+    #$epochDate = Get-DateFromEpoch($timeChange.time)
     $parseText = get-content Daily.txt # Variable to hold the text from the users chosen file
 
     foreach ($line in $parseText) # foreach loop to go through each line in the file storing each line in the $line variable
     {
         # If statement to check if the regex string is present in the current line stored in the $line variable
         if ($line -match "\d{4,}")
-        {          
+        {        
+            $humanDate = Get-DateFromEpoch($timeChange.time)  
             $parseText -replace "\d{4,}","$humanDate" | set-content Daily.txt # replacing the found regex string, in this case epoch time to a human readable time format
         }
-    } #>
+    }
 }
 
 function Get-HourlyWeather{
@@ -140,7 +141,15 @@ function Get-HourlyWeather{
     select  time, summary, temperature, precipProbability, cloudCover, windSpeed | # Extracting the summary, time, icon, temperature, precipProbability, cloudCover, windSpeed sections of the currently section
     Out-File Hourly.txt -Append # appending data to existing file
 
-    $parseText = get-content Test.json # Variable to hold the text from the users chosen file
+    $timeChange = Get-Content Hourly.json | # Getting content from from the json file
+    convertFrom-json | # Converting content from json    
+    select -expand daily | # Expanding the daily section from the file
+    select -expand data | # Expanding the data section from the file
+    select  time # Selecting the time field for time conversion
+
+    #$epochDate = Get-DateFromEpoch($timeChange.time)
+
+    $parseText = get-content Hourly.txt # Variable to hold the text from the users chosen file
 
     foreach ($line in $parseText) # foreach loop to go through each line in the file storing each line in the $line variable
     {
@@ -148,8 +157,7 @@ function Get-HourlyWeather{
         # If statement to check if the word is present in the current line stored in the $line variable
         if ($line -match "\d{4,}")
         {    
-            
-            $humanDate = [System.DateTimeOffset]::FromUnixTimeSeconds($summary.time).datetime.tolocaltime() # Accessing the FromUnixTimeSeconds static method from the System.DateTimeOffset class      
+            $humanDate = Get-DateFromEpoch($timeChange.time)
             $parseText -replace "\d{4,}","$humanDate" | set-content Hourly.txt
         }
     } 

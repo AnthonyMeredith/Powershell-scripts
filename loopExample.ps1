@@ -19,6 +19,7 @@ while ($i -le 5)
 Write-Host "-------------------`r"
 $i = 1
 
+# Do While loop to continue while $i is less than 
 do {
     if ($i -eq 5)
     {
