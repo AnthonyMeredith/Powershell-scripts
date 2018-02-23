@@ -99,7 +99,7 @@ function Get-HourlyWeather{
 
     $userDate = Read-Host "Please enter the date you want the weather for in DD/MM/YYYY format"
     $userHour = Read-Host "Please enter the hour of the day you would like the weather from 00 - 23"
-    $inputDate = Get-Date -Date $userDate #-Hour $userHour
+    $inputDate = Get-Date -Date $userDate -Hour $userHour
 
     $ConvertedTime = [Math]::Floor([decimal](Get-Date($inputDate).ToUniversalTime()-uformat "%s")) # [Math] is a static class [Math]::Floor the :: allows us to access a static method or field of a class so in this case we are accessing the floor method to rounds a number to the nearest whole number, Get-Date(Get-Date).ToUniversalTime()-uformat "%s") function is 
     
@@ -120,39 +120,27 @@ function Get-HourlyWeather{
     Set-Content Hourly_Weather_Output.json $fileOutput # Creating a new file and setting the content to the data held in the $fileOutput variable 
 
     # Variable to hold the data from the users chosen json file and converting it to a .net object
-    $parseText = get-content Hourly_Weather_Output.json | ConvertFrom-Json            
- 
+    $parseText = get-content Hourly_Weather_Output.json | ConvertFrom-Json 
+               
+    $convertedArray = [System.Collections.ArrayList]::new()
+
     # foreach loop to go through the collections in the Hourly_Weather_Forcast section of the file storing each line in the $line variable
     foreach ($line in $parseText.Hourly_Weather_Forcast) 
     {
-
-        $line.time = (Get-DateFromEpoch($line.time)).ToString("dd/MM/yyyy HH:mm") # Making the time nested time object equal to the converted human readable date
-        $a = @($parseText.Hourly_Weather_Forcast)
-        
-
-        $a.GetType()
-       
-        <#$a = $line.time -split "$userHour(?=[:])"
-        $a
-        $line.time | % { where ($_ -ge "$userHour(?=[:])") {write-host $_}}#>
-       # while()
-        #{
-
-        #}
-          
-        #$b = [array]::indexof($a,$userHour)
-        #$b
-
-        if($line -eq "$userHour(?=[:])") 
+        if($line.time -ge $convertedTime)
         {
-           #$line | Where-Object { $_ -ge "$userHour(?=[:])" }
-
-           $line | ConvertTo-Json | Set-Content Output.json 
+            $line.time = (Get-DateFromEpoch($line.time)).ToString("dd/MM/yyyy HH:mm") # Making the time nested time object equal to the converted human readable date
+             
+            $convertedArray.add($line)
         }
+
     } 
 
-    $parseText | ConvertTo-Json | Set-Content Hourly_Weather_Output.json
-   
+
+    $parseText = @{ Hourly_Weather_Forcast = $convertedArray}
+    
+    $parseText | ConvertTo-Json | Set-Content Hourly_Weather_Output.Json
+ 
 }
 
 Get-Weather
@@ -214,6 +202,13 @@ Get-Weather
                     #$parseText -replace $parseText.Hourly_Weather_Forcast.time,"$humanDate" | set-content Hourly_Weather_Output.json
                 }
             }#>
+
+                        #$a = @($line.time) #
+            #$line.time
+            #$parseText | Where-Object { (-not($line -match '\d{4,}')) }
+
+            #$line | ConvertTo-Json | Out-file -Append Hourly_Weather_Output.json
+            #$parseText | Where-Object {$_ -match $a} | ConvertTo-Json | Set-Content out.txt
 
             #$parseText -replace "\d{4,}","$humanDate" | Set-Content Hourly_Weather_Output.json
 
