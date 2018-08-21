@@ -217,5 +217,3 @@ Get-Weather
             #)
 
             #$apikey = Read-Host "Please enter Dark Sky API key" 
-    
-            #Google API key AIzaSyAcRiFIvprj6A-Z8rUlZWG9RdpzxVHZ2Io

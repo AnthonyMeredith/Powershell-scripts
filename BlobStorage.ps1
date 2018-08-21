@@ -1,5 +1,5 @@
-$location = "westus"
-$resourceGroup = "blobStorageRg"
+$location = ""
+$resourceGroup = ""
 
 New-AzureRmResourceGroup -Name $resourceGroup -Location $location
 

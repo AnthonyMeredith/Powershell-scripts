@@ -1,8 +1,8 @@
-$vmName =     "CICD-server"
-$rgName =     "TestResourceGroup"
-$imgStoreRg = "blobStorageRg"
-$location =   "WestUS2"
-$imageName =  "CiCdImg"
+$vmName =     ""
+$rgName =     ""
+$imgStoreRg = ""
+$location =   ""
+$imageName =  ""
 
 Write-Host ""
 Write-Host "============================================"

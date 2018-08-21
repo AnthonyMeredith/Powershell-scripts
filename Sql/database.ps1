@@ -3,7 +3,7 @@ $SqlQuery = get-content "C:\Art.sql"
 #$SqlQuery = "SELECT * from table;"
 
 $SqlConnection = New-Object System.Data.SqlClient.SqlConnection
-$SqlConnection.ConnectionString = "Server=tcp:ant-dev-sdb1.database.windows.net,1433;Initial Catalog=art-db;Persist Security Info=False;User ID=dogadmin;Password=thisIsDog111;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+$SqlConnection.ConnectionString = ""
 
 $SqlConnection.Open()
 
