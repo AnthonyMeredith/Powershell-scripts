@@ -1,0 +1,27 @@
+<site name="Default Web Site" id="1" serverAutoStart="true">
+	<application path="/">
+        	<virtualDirectory path="/" physicalPath="%SystemDrive%\inetpub\wwwroot" />
+        </application>
+        <application path="/Art.Web_deploy">
+                 <virtualDirectory path="/" physicalPath="%SystemDrive%\inetpub\wwwroot\Art.Web_deploy" />
+        </application>
+        <bindings>
+                 <binding protocol="http" bindingInformation="*:80:" />
+                 <binding protocol="https" bindingInformation="*:443:testwww.doofer.co.uk" sslFlags="0" />
+        </bindings>
+        <logFile>
+        	<customFields>
+                <clear />
+                        <add logFieldName="crypt-protocol" sourceName="CRYPT_PROTOCOL" sourceType="ServerVariable" />
+                        <add logFieldName="crypt-cipher" sourceName="CRYPT_CIPHER_ALG_ID" sourceType="ServerVariable" />
+                        <add logFieldName="crypt-hash" sourceName="CRYPT_HASH_ALG_ID" sourceType="ServerVariable" />
+                        <add logFieldName="crypt-keyexchange" sourceName="CRYPT_KEYEXCHANGE_ALG_ID" sourceType="ServerVariable" />
+                </customFields>
+        </logFile>
+</site>
+<siteDefaults>
+        <logFile logFormat="W3C" directory="%SystemDrive%\inetpub\logs\LogFiles" />
+        <traceFailedRequestsLogging directory="%SystemDrive%\inetpub\logs\FailedReqLogFiles" />
+</siteDefaults>
+<applicationDefaults applicationPool="DefaultAppPool" />
+<virtualDirectoryDefaults allowSubDirConfig="true" />
