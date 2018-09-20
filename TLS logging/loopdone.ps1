@@ -1,5 +1,5 @@
 ﻿#$sitesFound = Get-IISSite Uncomment if you want to run this script against all IIS sites individually
-$sitesFound = "*" # Comment out if you want to run against all sites individually 
+$sitesFound = "site" # Comment out if you want to run against all sites individually 
 
 $logValue = @('crypt-protocol', 'CRYPT_PROTOCOL', 'ServerVariable'),       # Multi-dimentional array 
              ('crypt-cipher', 'CRYPT_CIPHER_ALG_ID', 'ServerVariable'),
@@ -15,12 +15,12 @@ foreach($site in $sitesFound)
 
     }elseif($site -eq "*")
     {
-        Write-Host "`nEnabling TLS logging at server level (all sites)`n"
+        Write-Host "`nChecking custom logs at server level (all sites)`n"
         $config = "siteDefaults"
 
     }else
     {
-        Write-Host "`nEnabling TLS logging on $site`n"
+        Write-Host "`nChecking custom logs on IIS '$site'`n"
         $config = "site[@name='$($site)']"
 
     }
